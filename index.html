@@ -148,12 +148,12 @@
 
             // Construir el mensaje de WhatsApp. Usamos %0A para saltos de línea.
             const mensajeWhatsApp = `
-*Control de Trabajo*
+*Control de Trabajo*\n
 Control ${hora} Hs
-${trabajo}
+${trabajo}\n
 Actual: ${ahora} m3
 Caudal: ${caudal} m3/h
-Restan: ${restan} m3
+Restan: ${restan} m3\n
 Horas Restantes: ${estimafin}
             `.trim(); // .trim() para quitar espacios extra al inicio/fin
 
