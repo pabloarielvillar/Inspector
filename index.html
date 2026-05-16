@@ -1,60 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Móvil</title>
-    <style>
-        /* Configuración del fondo y cuerpo */
-        body {
-           background-color: rgb(0, 0, 0);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Contenedor de botones */
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 80%; /* Ancho adecuado para celular */
-            max-width: 400px;
-        }
+<!-- ICONOS -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-        /* Estilo de los botones */
-        .btn {
-            background-color: #c04600; /* Morado */
-            color: rgb(255, 252, 84);             /* Letras blancas */
-            text-decoration: none;
-            text-align: center;
-            padding: 15px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 20px;      /* Bordes redondeados */
-            transition: background 0.3s ease;
-            box-shadow: 0 4px 4px rgba(247, 191, 40, 0.514);
-        }
+<title>INSPECTORES</title>
 
-        /* Efecto al presionar */
-        .btn:active {
-            background-color: #d87634;
-            transform: scale(0.98);
-        }
-    </style>
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    background:#000;
+    font-family:Arial, sans-serif;
+}
+
+/* GRID */
+.grid-botones{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+}
+
+/* BOTONES */
+.boton{
+    border:none;
+    border-radius:22px;
+    padding:28px 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    color:#222;
+    font-size:15px;
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(255,255,255,0.08);
+    transition:0.2s;
+    height: 100px;
+}
+
+/* EFECTO TOUCH */
+.boton:active{
+    transform:scale(0.96);
+}
+
+/* ICONOS */
+.boton i{
+    font-size:30px;
+}
+
+/* COLORES PASTEL */
+.pastel1{ background:#e07d3b; }
+.pastel2{ background:#e07d3b; }
+.pastel3{ background:#e07d3b; }
+.pastel4{ background:#e07d3b; }
+.pastel5{ background:#e07d3b; }
+.pastel6{ background:#666666; }
+.pastel7{ background:#666666; }
+.pastel8{ background:#666666; }
+
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <a href="control.html" class="btn">CONTROLES</a>
-        <a href="interpolar.html" class="btn">INTERPOLAR</a>
-        <a href="" class="btn">PONDERAR</a>
-        <a href="" class="btn">PONDERAR VARIOS TKS</a>
-        <a href="desplazado.html" class="btn">DIFERENIAS</a>
-    </div>
+<div class="grid-botones">
+
+    <button class="boton pastel1"onclick=" href='control.html'">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>CONTROLES</span>
+    </button>
+
+    <button class="boton pastel2">
+        <i class="fa-solid fa-hourglass"></i>
+        <span>HORARIOS</span>
+    </button>
+
+    <button class="boton pastel3">
+        <i class="fa-solid fa-recycle"></i>
+        <span>PONDERAR</span>
+    </button>
+
+    <button class="boton pastel4">
+        <i class="fa-solid fa-recycle"></i>
+        <span>PONDERAR VARIOS</span>
+    </button>
+
+    <button class="boton pastel5" onclick=" href='interpolar.html'">
+        <i class="fa-solid fa-bars"></i>
+        <span>INTERPOLAR</span>
+    </button>
+
+    <button class="boton pastel6">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>OTROS 1</span>
+    </button>
+
+    <button class="boton pastel7">
+       <i class="fa-solid fa-circle-info"></i>
+        <span>OTROS 2</span>
+    </button>
+
+    <button class="boton pastel8">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>OTROS 3</span>
+    </button>
+
+</div>
 
 </body>
 </html>
+
+
