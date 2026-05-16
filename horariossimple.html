@@ -1,1 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Operaciones</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6f8;
+}
+
+/* Header fijo */
+.header {
+    position: sticky;
+    top: 0;
+    background: #0a3d62;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 18px;
+    z-index: 10;
+}
+
+/* Contenedor */
+#list {
+    padding-bottom: 80px;
+}
+
+/* Filas */
+.row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+/* Alternancia colores */
+.row:nth-child(odd) {
+    background-color: #d9ecff;
+}
+
+.row:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Input grande tipo app */
+input[type="time"] {
+    min-width: 90px;
+    font-size: 16px;
+    padding: 6px;
+}
+
+/* Texto */
+.text {
+    font-size: 15px;
+    line-height: 1.3;
+}
+
+/* Botón fijo abajo */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+button {
+    width: 98%;
+    padding: 15px;
+    font-size: 18px;
+    background: #1aac4f;
+    color: rgb(233, 233, 233);
+    border: none;
+    border-radius: 8px;
+}
+
+.btn-volver {
+    width: 50%;
+    padding: 15px;
+    font-size: 18px;
+    background: #75726f;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 8px;
+}
+
+
+.row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+input[type="time"] {
+    flex: 0 0 80px; /* tamaño fijo */
+}
+
+.text {
+    flex: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Registro de Operaciones</div>
+
+<div id="list"></div>
+
+<div class="footer">
+    <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+    <button class="btn-volver" onclick="window.location.href='index.html'"> ⬅ Volver </button>
+</div>
+
+<script>
+const eventos = [
+"PRIMER CABO A TIERRA",
+"AMARRADO A MUELLE ..........",
+"PLANCHADA COLOCADA",
+"LIBERADO POR AUTORIDADES",
+"CHECK LIST",
+"INSPECTOR ABORDO",
+"COMIENZA MEDICIONES",
+"FINALIZA MEDICIONES",
+"COMIENZA MUESTREO",
+"FINALIZA MUESTREO",
+"COMIENZA CALCULOS",
+"FINALIZA CALCULOS",
+"COMIENZA VERIFICACION DE VACIOS",
+"FINALIZA VERIFICACION DE VACIOS",
+"COMIENZA MEDICIONES CALCULOS Y MUESTREO",
+"FINALIZA MEDICIONES CALCULOS Y MUESTREO",
+"CONEXION DE BRAZO DE CARGA",
+"CONEXION DE BRAZO DE DESCARGA",
+"CONEXION DE MANGUERA",
+"COMIENZA LA CARGA",
+"COMIENZA LA DESCARGA",
+"",
+"",
+
+];
+
+const container = document.getElementById("list");
+
+eventos.forEach((evento, index) => {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    row.innerHTML = `
+        <input type="time" id="time-${index}">
+        <div class="text">${evento}</div>
+    `;
+
+    container.appendChild(row);
+});
+
+function enviarWhatsApp() {
+    let mensaje = "";
+
+    eventos.forEach((evento, index) => {
+        const input = document.getElementById(`time-${index}`);
+        if (input.value) {
+            mensaje += `${input.value} - ${evento}\n`;
+        }
+    });
+
+    if (!mensaje) {
+        alert("No cargaste ningún horario ❗");
+        return;
+    }
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
 
