@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Operaciones</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6f8;
+}
+
+/* Header fijo */
+.header {
+    position: sticky;
+    top: 0;
+    background: #0a3d62;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 18px;
+    z-index: 10;
+}
+
+/* Contenedor */
+#list {
+    padding-bottom: 80px;
+}
+
+/* Filas */
+.row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+/* Alternancia colores */
+.row:nth-child(odd) {
+    background-color: #d9ecff;
+}
+
+.row:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Input grande tipo app */
+input[type="time"] {
+    min-width: 90px;
+    font-size: 16px;
+    padding: 6px;
+}
+
+/* Texto */
+.text {
+    font-size: 15px;
+    line-height: 1.3;
+}
+
+/* Botón fijo abajo */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+input[type="time"] {
+    flex: 0 0 80px; /* tamaño fijo */
+}
+
+.text {
+    flex: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Registro de Operaciones</div>
+
+<div id="list"></div>
+
+<div class="footer">
+    <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+</div>
+
+<script>
+const eventos = [
+"EOSP.","EOSP.","En espera de órdenes","Waiting for orders",
+"En espera de muelle libre.","Waiting free berth.",
+"En espera de condiciones meteorológicas .","Waiting better wheaters conditions.",
+"Práctico a bordo.","Pilot on board.",
+"Pasó por boya N°.","Passed by buoy #.",
+"N.O.R. emitido.","N.O.R. tendered.",
+"Buque Fondeado","Vessel anchored",
+"Dejó fondeadero y prosigue.","Left anchorage and proceed.",
+"Primer cabo","First line",
+"Buque amarrado en ",
+"Vessel all fasted at ",
+"Planchada colocada.","Ganway placed.",
+"Autoridades a bordo.","Authorites on board.",
+"Libre plática.","Free pratique",
+"Entrada formalizada.","Clearance.",
+"AMSPEC a bordo.","AMSPEC on board.",
+"N.O.R aceptado","N.O.R. accepted.",
+"Inició inspección de tanques.","Tank's inspection commenced.",
+"Finalizó inspección de tanques.","Tank's inspection completed.",
+"Comenzó cálculos.","Started cargo calculations.",
+"Finalizó cálculos.","Finished cargo calculations",
+"Inició la conexión de mangueras.","Hose connection started.",
+"Finalizó la conexión de mangueras","Hose connection finished",
+"Inició la conexión de brazo de descarga","Discharging Arm connection started",
+"Finalizó la conexión de brazo de descarga","Discharging Arm connection finished",
+"Manguera conectada","Hoses connected",
+"Brazo de descarga conectado","Discharging Arm connected",
+"En espera de alistamiento de tierra","Waiting for shore readiness",
+"Demora por operaciones en tierra.","Delay due to shore operations",
+"Demora por operaciones en buque.","Delay due to ship operations.",
+"Comenzó muestreo de cisternas de buque.","Sampling, from ship's tks, started",
+"Finalizó muestreo de cisternas de buque.","Sampling, from ship's tks, finished.",
+"En espera de los resultados analíticos de la muestra.","Waiting analitycal results.",
+"Resultados de análisis, concluidos.","Analitycal results, completed.",
+"Comenzó la descarga","Discharging commenced",
+"Comenzó muestreo de primer pie.","Sampling first foot started",
+"Finalizó muestreo de primer pie.","Sampling first foot finished.",
+"Comenzó lastre.","Commenced ballasting",
+"Finalizó lastre","Completed ballasting",
+"Comenzó deslastre.","Commenced desballasting",
+"Finalizó deslastre","Completed desballasting",
+"Interrumpida la descarga, debido a tormentas eléctricas.","Discharging stopped due to electric storms.",
+"Interrumpida la descarga, requerido por la terminal ( debido a falta de corriente en la terminal",
+"Stopped discharging ( shore requested ), due to shot down at terminal",
+"Interrumpida la descarga requerido por tierra.","Stopped discharging shore requested.",
+"Interrumpida la descarga requerido por buque.","Stopped discharging ship requested.",
+"Reinició la descarga.","Discharging resumed.",
+"Comenzó llenado de líneas a bordo.","Filling up cargo lines on board commencement.",
+"Finalizó llenado de líneas a bordo.","Filling up cargo lines on board completed.",
+"Finalizó la descarga parada por buque.","Discharging completed ship stopped.",
+"Finalizó la descarga Parada por tierra.","Discharging completed shore stopped.",
+"Inició la desconexión de mangueras.","Hose disconnection started.",
+"Finalizó la desconexión de mangueras","Hose disconnection finished",
+"Inició la desconexión de brazo de descarga.","Discharging Arm disconnection started.",
+"Finalizó desconexión de brazo de descarga.","Discharging Arm connection finished.",
+"Manguera desconectada","Hoses disconnected",
+"Brazo de descarga desconectado","Discharging Arm disconnected.",
+"Zarpada estimada","Sailing time aproximate.",
+"Zarpada","Vessel sailied",
+"Demora al estar el buque operando con otras partidas.","Delay due to vessel is operating with another parcels.",
+"Arribo a zona de alijo.","Arrived at ligthering zone",
+"Fondeado en zona de alijo","Anchored at ligthering zone",
+"A la espera del buque alijador","Awaiting ligthering vessel.",
+"Buque alijador esperando luz diurna.","Ligthering vessel awaiting daylight",
+"Esperando mejores condiciones meteorológicas","Awaiting better weather conditions.",
+"Esperando mejores condiciones de mareas","Awaiting better tide conditions.",
+"Esperando mejores condiciones de velocidad de viento.","Awaiting better wind speed conditions.",
+"Buque alijador inició aproximación.","Ligthering vessel began approach.",
+"Primer cabo a bordo.","First line on board.",
+"Buque alijador al costado","Ligthering vessel alongside",
+"Buque alijador totalmente amarrado por babor.","Ligthering vessel all secure port side.",
+"Buque alijador totalmente amarrado por estribor.","Ligthering vessel all secure starboard side.",
+"Comenzó desamarre.","Unmooring operations commenced.",
+"Finalizó desamarre.","Unmooring operations completed."
+];
+
+const container = document.getElementById("list");
+
+eventos.forEach((evento, index) => {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    row.innerHTML = `
+        <input type="time" id="time-${index}">
+        <div class="text">${evento}</div>
+    `;
+
+    container.appendChild(row);
+});
+
+function enviarWhatsApp() {
+    let mensaje = "";
+
+    eventos.forEach((evento, index) => {
+        const input = document.getElementById(`time-${index}`);
+        if (input.value) {
+            mensaje += `${input.value} - ${evento}\n`;
+        }
+    });
+
+    if (!mensaje) {
+        alert("No cargaste ningún horario ❗");
+        return;
+    }
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
