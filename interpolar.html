@@ -1,227 +1,208 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="logo.png">
-    <title>Control</title>
-    <style>
-body{
-    background-color: black;
-    justify-content: center;
-        align-items: center; /* Alinea los elementos verticalmente al centro */
-    align-content: center;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Interpolación Lineal</title>
 
-}
+  <style>
+    *{
+      box-sizing: border-box;
+      margin:0;
+      padding:0;
+    }
 
-.form-container {
-    background-color: rgb(0, 0, 0);   
-    padding: 5px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    display: flex;       /* Alinea los grupos de forma horizontal */
-    gap: 15px;           /*  espacio entre un grupo y otro */
-    align-items: center; /* Alinea los elementos verticalmente al centro */
-    align-content: center;
-}
+    body{
+      font-family: Arial, sans-serif;
+      background:#f0f0f0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      padding:20px;
+    }
 
-.form-group {
-    display: flex;
-    flex-direction: column; /* Mantiene la etiqueta arriba de su respectivo input */
-    
-    padding-bottom: 10px;
-}
+    .contenedor{
+      width:100%;
+      max-width:420px;
+    }
 
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-family: sans-serif;
-}
+    .tabla{
+      width:100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
 
-input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-        h2 {
-            text-align: center;
-            color: #7ab845;
-            margin-bottom: 20px;
-        }
+    .tabla td{
+      border:1px solid #555;
+      height:75px;
+      text-align:center;
+      background:#dcdcdc;
+      font-size:24px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: #ffffff;
-            font-weight: bold;
-        }
+    .tabla .titulo{
+      height:45px;
+      background:#ececec;
+      font-weight:bold;
+      font-size:22px;
+    }
 
-        .btn {
-            width: 150%;
-            padding: 12px 40px;
-            background-color: #a8c40d;
-            color: rgb(0, 0, 0);
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .tabla input{
+      width:95%;
+      height:55px;
+      font-size:28px;
+      text-align:center;
+      border:none;
+      background:transparent;
+      outline:none;
+    }
 
-        /*input[type="time"],
-        input[type="text"],
-        input[type="number"],
-        select {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 1px solid #b3b3b3;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-            
+    .resultado{
+      background:#9fd0f6 !important;
+      font-weight:bold;
+    }
 
-        input[type="time"]:focus,
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-        }*/
+    .btn-salir{
+      width:100%;
+      margin-top:20px;
+      padding:16px;
+      border:none;
+      border-radius:12px;
+      background:#444;
+      color:white;
+      font-size:22px;
+      cursor:pointer;
+      transition:0.2s;
+    }
 
-        #litrosbuscado {
-        background-color: #27aabb;
-}
-#numbuscado {
-        background-color: #27aabb;
-}
-#litrosbuscado:focus {
-        background-color: #ff0000;
-}
+    .btn-salir:active{
+      transform:scale(0.98);
+    }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #064e06;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    @media (max-width:480px){
 
-        button:hover {
-            background-color: #016901;
-        }
+      .tabla td{
+        height:70px;
+      }
 
-        input[type="time"] {
-            width: 150px; /* Establece el ancho del input de tipo "time" a 100 píxeles */
-        }
+      .tabla input{
+        font-size:26px;
+      }
 
-        input[type="number"] {
-          width: 150px;
-        }
-
-        label{
-          font-size: 15px;
-        }
-
-        input{
-            font-size: 20px;
-        }
-
-
-
-
-    </style>
-    </style>
+      .btn-salir{
+        font-size:20px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Interpolar</h2>
-        <form id="controlForm">
-            
-<div class="form-container">
-    
-    <div class="form-group">
-        <label for="numanterior">Medida anterior:</label>
-        <input type="number" id="numanterior" name="numanterior" required>
-    </div>
 
-    <div class="form-group">
-        <label for="litrosanterior">Litros:</label>
-        <input type="number" id="litrosanterior" name="litrosanterior" required>
-    </div>
+<div class="contenedor">
+
+  <table class="tabla">
+
+    <tr>
+      <td class="titulo">x1</td>
+      <td class="titulo">y1</td>
+    </tr>
+
+    <tr>
+      <td><input type="number" id="x1" step="any"></td>
+      <td><input type="text" id="y1"></td>
+    </tr>
+
+    <tr>
+      <td class="titulo">x</td>
+      <td class="titulo">y</td>
+    </tr>
+
+    <tr>
+      <td><input type="number" id="x" step="any"></td>
+
+      <td class="resultado">
+        <input type="text" id="y" readonly>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="titulo">x2</td>
+      <td class="titulo">y2</td>
+    </tr>
+
+    <tr>
+      <td><input type="number" id="x2" step="any"></td>
+      <td><input type="text" id="y2"></td>
+    </tr>
+
+  </table>
+
+  <button class="btn-salir" onclick="window.location.href='index.html'">
+    ⬅ Salir
+  </button>
+
 </div>
 
-<div class="form-container">
-      <div class="form-group">
-        <label for="numbuscado">Medida buscada:</label>
-        <input type="number" id="numbuscado" name="numbuscado" required>
-    </div>
+<script>
 
-    <div class="form-group">
-        <label for="litrosbuscado">Litros buscados:</label>
-        <input type="number" id="litrosbuscado" name="litrosbuscado">
-    </div>
-</div>
+  const inputs = document.querySelectorAll("input");
 
-<div class="form-container">
-      <div class="form-group">
-        <label for="numposterior">Medida posterior:</label>
-        <input type="number" id="numposterior" name="numposterior" required>
-    </div>
+  inputs.forEach(input => {
+    input.addEventListener("input", calcular);
+  });
 
-    <div class="form-group">
-        <label for="litrosposterior">Litros:</label>
-        <input type="number" id="litrosposterior" name="litrosposterior" required>
-    </div>
-</div>
-<br><br>
+  // Convierte "1.234.567" a número
+  function limpiarNumero(valor){
+    return parseFloat(valor.replace(/\./g, "").replace(",", "."));
+  }
 
-<div>
-     <button type="button" onclick="calculointerpolar()">Calcular</button>
-        </form>
-        <br><br>
-        <a href="index.html" class="btn">Inicio</a>
-</div>
+  // Formato miles con puntos
+  function formatoMiles(numero){
+    return Math.round(numero).toLocaleString('es-AR');
+  }
 
-    <script>
-function calculointerpolar() {
-    // Convertimos los valores a números usando parseFloat
-    const numanterior = parseFloat(document.getElementById('numanterior').value);
-    const numbuscado = parseFloat(document.getElementById('numbuscado').value);
-    const numposterior = parseFloat(document.getElementById('numposterior').value);
-    const litrosanterior = parseFloat(document.getElementById('litrosanterior').value);
-    const litrosposterior = parseFloat(document.getElementById('litrosposterior').value);
+  function calcular(){
 
-    // Validación simple para evitar errores si los campos están vacíos
-    if (isNaN(numanterior) || isNaN(numbuscado) || isNaN(numposterior)) {
-        alert("Por favor, completa todos los campos con números.");
-        return;
+    let x1 = parseFloat(document.getElementById("x1").value);
+    let x2 = parseFloat(document.getElementById("x2").value);
+    let x  = parseFloat(document.getElementById("x").value);
+
+    let y1 = limpiarNumero(document.getElementById("y1").value || "0");
+    let y2 = limpiarNumero(document.getElementById("y2").value || "0");
+
+    if(
+      !isNaN(x1) &&
+      !isNaN(x2) &&
+      !isNaN(x) &&
+      !isNaN(y1) &&
+      !isNaN(y2) &&
+      x2 !== x1
+    ){
+
+      // Fórmula de interpolación lineal
+      let y = y1 + ((x - x1) * (y2 - y1)) / (x2 - x1);
+
+      document.getElementById("y").value = formatoMiles(y);
+
+    }else{
+      document.getElementById("y").value = "";
     }
+  }
 
-    let diferenciamedida = (numposterior - numanterior);
-    
-    // Evitar división por cero si las medidas son iguales
-    if (diferenciamedida === 0) {
-        alert("La medida anterior y posterior no pueden ser iguales.");
-        return;
-    }
+  // Formato automático miles en y1 e y2
+  document.getElementById("y1").addEventListener("input", function(e){
+    let valor = e.target.value.replace(/\D/g,'');
+    e.target.value = valor ? parseInt(valor).toLocaleString('es-AR') : '';
+  });
 
-    let intervalolitros = ((litrosposterior - litrosanterior) / diferenciamedida);
-    let sumarlitros = ((numbuscado - numanterior) * intervalolitros);
-    
-    // Ahora litrosanterior es un número, por lo que se sumará correctamente
-    let resultadolitros = (litrosanterior + sumarlitros).toFixed(0);
-    document.getElementById('litrosbuscado').value = resultadolitros;
+  document.getElementById("y2").addEventListener("input", function(e){
+    let valor = e.target.value.replace(/\D/g,'');
+    e.target.value = valor ? parseInt(valor).toLocaleString('es-AR') : '';
+  });
 
-
-}
-    </script>
+</script>
 
 </body>
 </html>
