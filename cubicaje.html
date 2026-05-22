@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Cubicaje</title>
+
+<style>
+    *{
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+    }
+
+    body{
+        margin:0;
+        background:#111;
+        color:white;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+        padding:20px;
+    }
+
+    .contenedor{
+        width:100%;
+        max-width:400px;
+        background:#1c1c1c;
+        padding:25px;
+        border-radius:20px;
+        box-shadow:0 0 20px rgba(0,0,0,0.5);
+    }
+
+    h1{
+        text-align:center;
+        margin-bottom:25px;
+        font-size:26px;
+    }
+
+    .grupo{
+        margin-bottom:20px;
+    }
+
+    label{
+        display:block;
+        margin-bottom:8px;
+        font-size:16px;
+    }
+
+    input{
+        width:100%;
+        padding:15px;
+        border:none;
+        border-radius:12px;
+        font-size:20px;
+        background:#2d2d2d;
+        color:white;
+    }
+
+    .resultado{
+        background:#2d2d2d;
+        padding:15px;
+        border-radius:12px;
+        font-size:22px;
+        text-align:center;
+        margin-top:10px;
+    }
+
+    .titulo-resultado{
+        font-size:15px;
+        color:#aaa;
+        margin-bottom:5px;
+    }
+
+    .btn-volver{
+        width:100%;
+        margin-top:25px;
+        padding:15px;
+        border:none;
+        border-radius:12px;
+        background:#444;
+        color:white;
+        font-size:18px;
+        cursor:pointer;
+    }
+
+    .btn-volver:hover{
+        background:#666;
+    }
+</style>
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Cubicaje de Cañería</h1>
+
+    <div class="grupo">
+        <label>Pulgadas de la cañería</label>
+        <input type="number" id="pulgadas" step="0.01" placeholder="Ej: 4">
+    </div>
+
+    <div class="grupo">
+        <label>Metros lineales</label>
+        <input type="number" id="metros" step="0.01" placeholder="Ej: 100">
+    </div>
+
+    <div class="grupo">
+        <div class="titulo-resultado">m³ por metro lineal</div>
+        <div class="resultado" id="m3metro">0.0000</div>
+    </div>
+
+    <div class="grupo">
+        <div class="titulo-resultado">Total m³</div>
+        <div class="resultado" id="totalm3">0.0000</div>
+    </div>
+
+    <button class="btn-volver" onclick="window.location.href='index.html'">
+        ⬅ Volver
+    </button>
+
+</div>
+
+<script>
+
+function calcular() {
+
+    let pulgadas = parseFloat(document.getElementById("pulgadas").value) || 0;
+    let metros = parseFloat(document.getElementById("metros").value) || 0;
+
+    // Convertir pulgadas a metros
+    let diametro = pulgadas * 0.0254;
+
+    // Radio
+    let radio = diametro / 2;
+
+    // m3 por metro lineal
+    let m3PorMetro = Math.PI * Math.pow(radio, 2);
+
+    // Total
+    let total = m3PorMetro * metros;
+
+    document.getElementById("m3metro").innerText =
+        m3PorMetro.toFixed(4);
+
+    document.getElementById("totalm3").innerText =
+        total.toFixed(4);
+}
+
+document.getElementById("pulgadas").addEventListener("input", calcular);
+document.getElementById("metros").addEventListener("input", calcular);
+
+</script>
+
+</body>
+</html>
