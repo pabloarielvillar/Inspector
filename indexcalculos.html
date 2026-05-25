@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ICONOS -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<title>INSPECTORES</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    background:#000;
+    font-family:Arial, sans-serif;
+}
+
+/* GRID */
+.grid-botones{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+}
+
+/* BOTONES */
+.boton{
+    border:none;
+    border-radius:22px;
+    padding:28px 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    color:#222;
+    font-size:15px;
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(255,255,255,0.08);
+    transition:0.2s;
+    height: 100px;
+}
+
+/* EFECTO TOUCH */
+.boton:active{
+    transform:scale(0.96);
+}
+
+/* ICONOS */
+.boton i{
+    font-size:30px;
+}
+
+.btn-volver {
+    width: 50%;
+    padding: 15px;
+    font-size: 18px;
+    background: #328a10;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 8px;
+}
+
+/* COLORES PASTEL */
+.pastel1{ background:#b9b24b; }
+.pastel2{ background:#b9b24b; }
+.pastel3{ background:#b9b24b; }
+.pastel4{ background:#b9b24b; }
+.pastel5{ background:#b9b24b; }
+.pastel6{ background:#b9b24b; }
+.pastel7{ background:#b9b24b; }
+.pastel8{ background:#b9b24b; }
+
+</style>
+</head>
+
+<body>
+
+<div class="grid-botones">
+
+<button class="boton pastel1" onclick="window.location.href='calculo54b.html'">
+    <i class="fa-solid fa-circle-info"></i> 
+    <span>TABLA 54B</B></span>
+</button>
+
+    <button class="boton pastel2" onclick="window.location.href='calculoapi.html'">
+        <i class="fa-solid fa-hourglass"></i>
+        <span>DENSIDAD A API</span>
+    </button>
+
+    <button class="boton pastel3" onclick="window.location.href='ponderar.html'">
+        <i class="fa-solid fa-recycle"></i>
+        <span>PONDERAR</span>
+    </button>
+
+    <button class="boton pastel4" onclick="window.location.href='interpolar.html'">
+        <i class="fa-solid fa-hourglass"></i>
+        <span>INTERPOLAR</span>
+    </button>
+
+    <button class="boton pastel5" onclick="window.location.href='cubicaje.html'">
+        <i class="fa-solid fa-bars"></i>
+        <span>CUBICAJE LINEAS</span>
+    </button>
+
+    <button class="boton pastel6">
+          <span></span>
+    </button>
+
+    <button class="boton pastel7">
+        <span></span>
+    </button>
+
+    <button class="boton pastel8">
+        <span></span>
+    </button>
+
+    <button class="btn-volver" onclick="window.location.href='index.html'">
+        SALIR
+    </button>
+
+</div>
+
+</body>
+</html>
+
+
