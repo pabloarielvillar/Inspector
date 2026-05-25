@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Densidad a API</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    min-height:100vh;
+    padding:20px;
+}
+
+.contenedor{
+    width:100%;
+    max-width:400px;
+    margin:0 auto;
+    }
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.campo{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:18px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    font-size:28px;
+    text-align:center;
+    border:none;
+    border-radius:10px;
+    background:#222;
+    color:#fff;
+}
+
+.resultado{
+    margin-top:20px;
+    padding:20px;
+    border:1px solid #444;
+    border-radius:10px;
+    text-align:center;
+    background:#111;
+}
+
+.resultado h2{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.api{
+    font-size:50px;
+    font-weight:bold;
+    color:#00ff88;
+}
+
+.btn-volver{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#444;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.btn-volver:hover{
+    background:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <h1>Densidad → API</h1>
+
+    <div class="campo">
+        <label>Densidad a 15°C</label>
+        <input
+            type="number"
+            id="densidad"
+            step="0.001"
+            min="0.654"
+            max="1.075"
+            placeholder="Ej: 0.845">
+    </div>
+
+    <div class="resultado">
+        <h2>API</h2>
+        <div class="api" id="api">--</div>
+    </div>
+
+    <button class="btn-volver"
+        onclick="window.location.href='indexcalculos.html'">
+        ⬅ Volver
+    </button>
+
+</div>
+
+<script>
+
+const densidadInput = document.getElementById("densidad");
+const apiResultado = document.getElementById("api");
+
+densidadInput.addEventListener("input", function(){
+
+    let densidad = parseFloat(this.value);
+
+    if(isNaN(densidad) || densidad <= 0){
+        apiResultado.innerText = "--";
+        return;
+    }
+
+    let api = (141.5 / densidad) - 131.5;
+
+    apiResultado.innerText =
+        api.toFixed(2).replace(".", ",");
+
+});
+
+</script>
+
+</body>
+</html>
