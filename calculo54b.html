@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Litros a 15°C</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    padding:15px;
+}
+
+.container{
+    max-width:450px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:28px;
+}
+
+.campo{
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    margin-bottom:5px;
+    font-size:18px;
+}
+
+input{
+    width:100%;
+    height:55px;
+    font-size:24px;
+    text-align:center;
+    border:none;
+    border-radius:10px;
+    background:#222;
+    color:#fff;
+}
+
+.resultado{
+    margin-top:25px;
+    background:#111;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.resultado h2{
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.valor{
+    font-size:34px;
+    font-weight:bold;
+    color:#00ff88;
+}
+
+.btn-volver{
+    width:100%;
+    margin-top:25px;
+    height:55px;
+    border:none;
+    border-radius:10px;
+    font-size:20px;
+    cursor:pointer;
+    background:#0d6efd;
+    color:white;
+}
+
+.btn-volver:hover{
+    opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Litros a 15°C</h1>
+
+<div class="campo">
+<label>Litros</label>
+<input type="text" id="litros" inputmode="numeric">
+</div>
+
+<div class="campo">
+<label>Densidad</label>
+<input type="number" id="densidad" step="0.0001" placeholder="0.8456">
+</div>
+
+<div class="campo">
+<label>Temperatura °C</label>
+<input type="number" id="temperatura" step="0.01" placeholder="32.40">
+</div>
+
+<div class="resultado">
+<h2>Factor de Corrección</h2>
+<div class="valor" id="factor">0,00000</div>
+</div>
+
+<div class="resultado">
+<h2>Litros a 15°C</h2>
+<div class="valor" id="litros15">0</div>
+</div>
+
+<button class="btn-volver"
+onclick="window.location.href='indexcalculos.html'">
+⬅ Volver
+</button>
+
+</div>
+
+<script>
+
+const litrosInput = document.getElementById('litros');
+const densidadInput = document.getElementById('densidad');
+const temperaturaInput = document.getElementById('temperatura');
+
+function formatearMiles(numero){
+    return numero.toLocaleString('es-AR');
+}
+
+function obtenerLitros(){
+    return Number(
+        litrosInput.value.replace(/\./g,'')
+    ) || 0;
+}
+
+litrosInput.addEventListener('input', function(){
+
+    let valor = this.value.replace(/\D/g,'');
+
+    if(valor.length > 9){
+        valor = valor.substring(0,9);
+    }
+
+    if(valor === ''){
+        this.value = '';
+        calcular();
+        return;
+    }
+
+    this.value = Number(valor).toLocaleString('es-AR');
+    calcular();
+});
+
+densidadInput.addEventListener('input', calcular);
+temperaturaInput.addEventListener('input', calcular);
+
+function calcular(){
+
+    const litros = obtenerLitros();
+    const densidad = parseFloat(densidadInput.value);
+    const temperatura = parseFloat(temperaturaInput.value);
+
+    if(
+        isNaN(densidad) ||
+        isNaN(temperatura) ||
+        litros <= 0
+    ){
+        document.getElementById('factor').innerText='0,00000';
+        document.getElementById('litros15').innerText='0';
+        return;
+    }
+
+    // Densidad redondeada
+    const densidadRedondeada =
+        Math.round((densidad * 1000) / 2) * 2;
+
+    // Coeficiente
+    let coef;
+
+    if(densidadRedondeada < 770.5){
+
+        coef =
+        (0.4388 / densidadRedondeada) +
+        (346.4228 /
+        (densidadRedondeada * densidadRedondeada));
+
+    }
+    else if(densidadRedondeada < 787.5){
+
+        coef =
+        -0.0033631 +
+        (2680.3206 /
+        (densidadRedondeada * densidadRedondeada));
+
+    }
+    else if(densidadRedondeada < 838.5){
+
+        coef =
+        594.5418 /
+        (densidadRedondeada * densidadRedondeada);
+
+    }
+    else{
+
+        coef =
+        (0.4862 / densidadRedondeada) +
+        (186.9696 /
+        (densidadRedondeada * densidadRedondeada));
+    }
+
+    // Temperatura redondeada
+    const tempRed =
+        Math.round(temperatura * 4) / 4;
+
+    // Factor corrección
+    const factor =
+        Math.exp(
+            -coef *
+            (tempRed - 15) *
+            (
+                1 +
+                (
+                    0.8 *
+                    coef *
+                    (tempRed - 15)
+                )
+            )
+        );
+
+    const factorFinal =
+        Number(factor.toFixed(4));
+
+    // Litros a 15°C
+    const litros15 =
+        Math.round(
+            litros * factorFinal
+        );
+
+    document.getElementById('factor').innerText =
+        factorFinal.toFixed(5).replace('.',',');
+
+    document.getElementById('litros15').innerText =
+        formatearMiles(litros15);
+
+}
+
+</script>
+
+</body>
+</html>
